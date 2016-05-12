@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "aws_access_key": "*************",
+    "aws_secret_key": "**************",
+	"security_group_id": "sg-name",
+	"source_ami": "ami-9ea492f4"   
+  },
+  
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-east-1",
+    "instance_type": "t2.micro",
+	  "ssh_username" : "ubuntu" ,
+    "source_ami": "{{user `source_ami`}}",
+    "security_group_id": "{{user `security_group_id`}}",
+    "ami_name": "ubuntu-es-cluster-node-ami"
+     
+  }],
+  
+  "provisioners": [        
+
+  {
+    "type": "chef-client",
+    "server_url": "https://api.chef.io/organizations/tavisca_vexiere",
+    "validation_client_name": "tavisca_vexiere-validator",
+    "validation_key_path" : "chef/tavisca_vexiere-validator.pem",
+    "run_list": "role[role-elasticsearch-cluster]"
+  }
+
+  ]
+}
