@@ -1,0 +1,7 @@
+# Cache objects
+packer_cache/
+
+chef/*.pem
+
+# For built boxes
+*.box
